@@ -1,0 +1,28 @@
+version: '3.10'
+services:
+  web:
+    image: django-stripe:latest
+    container_name: django-stripe_container
+    volumes:
+      - static_volume:/route/static
+    command: >
+      sh -c "python app/manage.py collectstatic --noinput &&
+             python app/manage.py migrate &&
+             python app/manage.py runserver 127.0.0.1:8000"
+  nginx:
+      build:
+        dockerfile: ./Dockerfile
+        context: ./docker/nginx
+      container_name: django-stripe_nginx
+      image: django-stripe:latest
+      volumes:
+        - static_volume:/app/static
+      depends_on:
+        - web
+      ports:
+        - "8000:8000"
+
+
+
+volumes:
+  static_volume:

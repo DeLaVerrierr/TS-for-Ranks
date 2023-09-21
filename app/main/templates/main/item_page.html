@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.name }}</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>{{ item.name }}</h1>
+            <p class="description">{{ item.description }}</p>
+            <p class="price">Price: {{ item.price }} {{ item.currency }}</p>
+            <div class="buttons">
+                <button id="buy-button" data-item-id="{{ item.id }}">Buy</button>
+                <button id="add-to-cart-button" data-item-id="{{ item.id }}">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'cart' %}" class="cart-link">Корзина</a>
+    <a href="{% url 'home' %}" class="home-link">На главную</a>
+<script>
+    document.getElementById('buy-button').addEventListener('click', function () {
+        var itemId = {{ item.id }};
+        fetch(`/buy/${itemId}/`)
+
+            .then(response => response.json())
+            .then(data => {
+                var stripe = Stripe('pk_test_51Ns71bAATCNTg8fJlpWd7IvsrmOcQNyuLzfyjsAS3K338gOXEDqFQYc5oyvXnfMP91wWR9kYCBN6NG3oc3wtlcKP00ERBdg7PP'); // Ваш публичный ключ Stripe
+                return stripe.redirectToCheckout({ sessionId: data.session_id });
+            })
+            .then(result => {
+                if (result.error) {
+                    console.error(result.error.message);
+                }
+            });
+    });
+</script>
+
+
+
+
+
+<script>
+document.getElementById('add-to-cart-button').addEventListener('click', function () {
+            var itemId = {{ item.id }};
+            fetch(`/add_to_cart/${itemId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cart-item-count').innerText = data.cart_item_count;
+                });
+        });
+</script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    border-radius: 5px;
+}
+
+/* Стили для элементов в карточке */
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Ссылки */
+.cart-link,
+.home-link {
+    display: block;
+    text-align: center;
+    margin-top: -50px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.cart-link:hover,
+.home-link:hover {
+    text-decoration: underline;
+}
+
+</style>
+
+</body>
+</html>

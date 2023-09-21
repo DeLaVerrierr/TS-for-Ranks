@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout canceled</title>
+</head>
+<body>
+    <div class="container">
+        <section class="canceled-section">
+            <p>Забыли добавить что-то в корзину? Проведите по магазину, а затем вернитесь, чтобы оплатить!</p>
+            <a href="{% url 'home' %}" class="home-link">На главную</a>
+        </section>
+
+    </div>
+</body>
+</html>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.canceled-section {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.canceled-section p {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+</style>
+
+</html>

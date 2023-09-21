@@ -1,0 +1,83 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Items</h1>
+        <a href="{% url 'cart' %}" class="cart-link">Cart</a>
+        <ul class="item-list">
+            {% for item in items %}
+                <li class="item">
+                    <a href="{% url 'get_item_page' item.id %}" class="item-name">{{ item.name }}</a>
+                    <span class="item-price">Price: {{ item.price }} {{ item.currency }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul.item-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+li.item {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a.item-name {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+span.item-price {
+    color: #666;
+}
+
+.cart-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.cart-link:hover {
+    text-decoration: underline;
+}
+
+
+</style>
+
+</html>
